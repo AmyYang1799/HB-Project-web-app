@@ -20,7 +20,9 @@ class User(db.Model):
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
     
-    
+    # ingredients = a list of Ingredient objects
+    image = db.relationship("Image")
+    recipe = db.relationship("Recipe")
 
     def __repr__(self):
         return f'<User user_id={ self.user_id } email={ self.email } password={ self.password } fname={self.fname} fname={self.lname}>'
@@ -38,6 +40,10 @@ class Recipe(db.Model):
     date_created = db.Column(db.DateTime, nullable=False)
     recipe_type = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    # ingredients = a list of Ingredient objects
+    user = db.relationship("User")
+    image = db.relationship("Image")
 
     def __repr__(self):
         return f'<Recipe recipe_id={ self.recipe_id } recipe_name={self.recipe_name} date_created={self.date_created} recipe_type={ self.recipe_type } user_id={self.user_id}>'
@@ -57,6 +63,9 @@ class Ingredient(db.Model):
     ingredient = db.Column(db.String(50), nullable=False)
     # ing_meas = db.Column(db.float, nullable=False)
 
+    recipe = db.relationship('Recipe', backref='ingredients')
+    user = db.relationship('User', backref='ingredients')
+
     def __repr__(self):
         return f'<Ingredient recipe_id={ self.recipe_id } user_id={self.user_id} ing_type={self.ing_type} ingredient={self.ingredient} ing_meas={ self.ing_meas }>'
     
@@ -72,6 +81,9 @@ class Image(db.Model):
     uploaded_by = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
     image_path = db.Column(db.String, nullable = False)
+
+    user = db.relationship("User")
+    recipe = db.relationship("Recipe")
 
     def __repr__(self):
         return f'<Image image_id={ self.image_id } uploaded_by={self.user_id} recipe_id={self.recipe_id} image_path={self.image_path}>'
