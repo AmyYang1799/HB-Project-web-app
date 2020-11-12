@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from datetime import datetime
 
-from sqlfaker.database import Database
+# from sqlfaker.database import Database
 
 db = SQLAlchemy()
 

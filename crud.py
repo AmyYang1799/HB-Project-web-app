@@ -33,6 +33,11 @@ def create_recipe(recipe_name, date_created, recipe_type):
 
     return recipe
 
+def get_recipes():
+    """Return all recipies."""
+
+    return Recipe.query.all()
+
 def create_ingredient(user, recipe, ing_type, ingredient):
     """Create and return a new ingredient."""
 
@@ -52,3 +57,8 @@ def create_image(user, recipe, image_path):
     db.session.commit()
 
     return image
+
+def get_user_by_email(email):
+    """Return a user by email."""
+
+    return User.query.filter(User.email == email).first()

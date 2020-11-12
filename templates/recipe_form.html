@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Recipe Web App</title>
+  </head>
+  <body>
+    <h1>Add a Recipe</h1>
+
+    <form action="/recipes">
+        <label>Recipe Title: </label>
+        <input type="text" name="title">
+        <br>
+        <br>
+        <label>Prep Time: </label>
+        <input type="text" name="prep-time">
+        <label>Cook Time: </label>
+        <input type="text" name="cook-time">
+        <br>
+        <label>Number of Servings: </label>
+        <input type="text" name="servings">
+        <br>
+        <br>
+        <label>Ingredients:</label><br>
+        <textarea name="ingredients" placeholder="List each item on a seperate line."></textarea>
+        <br>
+        <br>
+        <br>
+        <label>Directions:</label><br>
+        <textarea name="directions" placeholder="List each step on a seperate line."></textarea>
+        <br>
+        <br>
+        <br>
+        <button type="submit">Create Recipe</button>
+      </form>
+  </body>
+</html>
