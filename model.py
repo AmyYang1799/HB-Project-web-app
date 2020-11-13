@@ -36,9 +36,13 @@ class Recipe(db.Model):
     recipe_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    recipe_name = db.Column(db.String(100), nullable=False)
+    recipe_name = db.Column(db.String(500), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False)
-    recipe_type = db.Column(db.String(50), nullable=False)
+    prep_time = db.Column(db.String(50), nullable=False)
+    cook_time = db.Column(db.String(50), nullable=False)
+    num_servings = db.Column(db.String(50), nullable=False)
+    ingredients = db.Column(db.Text, nullable=False)
+    directions = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
     # ingredients = a list of Ingredient objects
@@ -46,28 +50,28 @@ class Recipe(db.Model):
     image = db.relationship("Image")
 
     def __repr__(self):
-        return f'<Recipe recipe_id={ self.recipe_id } recipe_name={self.recipe_name} date_created={self.date_created} recipe_type={ self.recipe_type } user_id={self.user_id}>'
+        return f'<Recipe recipe_id={ self.recipe_id } recipe_name={self.recipe_name} date_created={self.date_created} prep_time={ self.prep_time } cook_time={ self.cook_time } num_servings={ self.num_servings } ingredients={ self.ingredients } directions={ self.directions } user_id={self.user_id} >'
 
 
-class Ingredient(db.Model):
-    """Ingredients in a recipe."""
+# class Ingredient(db.Model):
+#     """Ingredients in a recipe."""
 
-    __tablename__ = "ingredients"
+#     __tablename__ = "ingredients"
 
-    ingredient_id = db.Column(db.Integer,
-                        autoincrement=True,
-                        primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    ing_type = db.Column(db.String(30), nullable=False)
-    ingredient = db.Column(db.String(50), nullable=False)
-    # ing_meas = db.Column(db.float, nullable=False)
+#     ingredient_id = db.Column(db.Integer,
+#                         autoincrement=True,
+#                         primary_key=True)
+#     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+#     ing_type = db.Column(db.String(30), nullable=False)
+#     ingredient = db.Column(db.String(50), nullable=False)
+#     # ing_meas = db.Column(db.float, nullable=False)
 
-    recipe = db.relationship('Recipe', backref='ingredients')
-    user = db.relationship('User', backref='ingredients')
+#     recipe = db.relationship('Recipe', backref='ingredients')
+#     user = db.relationship('User', backref='ingredients')
 
-    def __repr__(self):
-        return f'<Ingredient recipe_id={ self.recipe_id } user_id={self.user_id} ing_type={self.ing_type} ingredient={self.ingredient} ing_meas={ self.ing_meas }>'
+#     def __repr__(self):
+#         return f'<Ingredient recipe_id={ self.recipe_id } user_id={self.user_id} ing_type={self.ing_type} ingredient={self.ingredient} ing_meas={ self.ing_meas }>'
     
 
 class Image(db.Model):

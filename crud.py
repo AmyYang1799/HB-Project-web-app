@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Recipe, Ingredient, Image, connect_to_db
+from model import db, User, Recipe, Image, connect_to_db
 
 
 # Functions start here!
@@ -21,12 +21,25 @@ def create_user(email, password, fname, lname):
 
     return user
 
-def create_recipe(recipe_name, date_created, recipe_type):
+def create_recipe(recipe_name, date_created, prep_time, cook_time, num_servings, ingredients, directions):
     """Create and return a new recipe."""
+
+    print(recipe_name)
+    print(date_created)
+    print(prep_time)
+    print(cook_time)
+    print(num_servings)
+    print(ingredients)
+    print(directions)
 
     recipe = Recipe(recipe_name=recipe_name,
                   date_created=date_created,
-                  recipe_type=recipe_type)
+                  prep_time=prep_time,
+                  cook_time=cook_time,
+                  num_servings=num_servings,
+                  ingredients=ingredients,
+                  directions=directions
+                  )
 
     db.session.add(recipe)
     db.session.commit()

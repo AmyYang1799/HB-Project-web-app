@@ -8,31 +8,35 @@
   <body>
     <h1>Add a Recipe</h1>
 
-    <form action="/recipes">
+    <form action="/add_recipe" id="recipes-form" method="POST">
         <label>Recipe Title: </label>
-        <input type="text" name="title">
+        <input type="text" id="recipe_name" name="recipe_name">
         <br>
         <br>
         <label>Prep Time: </label>
-        <input type="text" name="prep-time">
+        <input type="text" id="prep_time" name="prep_time">
         <label>Cook Time: </label>
-        <input type="text" name="cook-time">
+        <input type="text" id="cook_time" name="cook_time">
         <br>
         <label>Number of Servings: </label>
-        <input type="text" name="servings">
+        <input type="text" id="num_servings" name="num_servings">
         <br>
         <br>
         <label>Ingredients:</label><br>
-        <textarea name="ingredients" placeholder="List each item on a seperate line."></textarea>
+        <textarea id="ingredients" name="ingredients" placeholder="List each item on a seperate line."></textarea>
         <br>
         <br>
         <br>
         <label>Directions:</label><br>
-        <textarea name="directions" placeholder="List each step on a seperate line."></textarea>
+        <textarea id="directions" name="directions" placeholder="List each step on a seperate line."></textarea>
         <br>
         <br>
         <br>
-        <button type="submit">Create Recipe</button>
+        <div>
+        <button type="submit" value="submit">Create Recipe</button>
+        </div>
       </form>
+
+      <script src="/static/js/recipes.js"></script>
   </body>
 </html>
