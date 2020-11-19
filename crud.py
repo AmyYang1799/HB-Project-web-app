@@ -21,7 +21,7 @@ def create_user(email, password, fname, lname):
 
     return user
 
-def create_recipe(recipe_name, date_created, prep_time, cook_time, num_servings, ingredients, directions):
+def create_recipe(recipe_name, date_created, prep_time, cook_time, num_servings, ingredients, directions, user_id):
     """Create and return a new recipe."""
 
     print(recipe_name)
@@ -31,6 +31,7 @@ def create_recipe(recipe_name, date_created, prep_time, cook_time, num_servings,
     print(num_servings)
     print(ingredients)
     print(directions)
+    print(user_id)
 
     recipe = Recipe(recipe_name=recipe_name,
                   date_created=date_created,
@@ -38,7 +39,8 @@ def create_recipe(recipe_name, date_created, prep_time, cook_time, num_servings,
                   cook_time=cook_time,
                   num_servings=num_servings,
                   ingredients=ingredients,
-                  directions=directions
+                  directions=directions,
+                  user_id=user_id
                   )
 
     db.session.add(recipe)
@@ -75,3 +77,8 @@ def get_user_by_email(email):
     """Return a user by email."""
 
     return User.query.filter(User.email == email).first()
+
+def get_recipe_by_id(recipe_id):
+    """Return a recipe by primary key."""
+
+    return Recipe.query.get(recipe_id)

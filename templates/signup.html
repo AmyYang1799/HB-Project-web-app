@@ -1,9 +1,9 @@
+{% extends "base.html" %}
 
-
-{% block content %}
-
+{% block body %}
+<div class="container">
   <h2>Create an Account</h2>
-  <form action="/login">
+  <form method="POST">
     <p>
       Email: <input type="text" name="email">
     </p>
@@ -22,5 +22,5 @@
       <input type="submit">
     </p>
   </form>
-
+</div>
 {% endblock %}

@@ -22,51 +22,95 @@ def homepage():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # if request.method == "POST":
+    #     email = request.form["email"]
+    #     password= request.form["password"]
+    #     user == crud.get_user_by_email(email)
+
+    #     if email == user and password == user.password:
+    #         session["user"] = user
+    #         flash("You were successfully logged in!")
+    #         return redirect(url_for("view_recipes"))
+    #     else:
+    #         flash("Invalid credentials")
+            
     if request.method == "POST":
 
         email = request.form["email"]
 
         if email != None:
             user = crud.get_user_by_email(email)
-         
-            if request.form["password"] != user.password:
-
+        
+            if user and request.form["password"] != user.password:
                 flash("Invalid credentials")
             else:
-                #session["User"] = user.user_id
-
+                session["user"] = user.user_id
+                print(user.user_id)
                 flash("You were successfully logged in!")
-                return redirect(url_for('view_recipes'))
+                return redirect(url_for("view_recipes"))
+  
+       
+    if "user" in session:
+        flash("Already logged in!")
+        return redirect(url_for('view_recipes'))
 
     return render_template('login.html')
 
-@app.route("/signup", methods=["POST"])
+@app.route("/signup", methods=["GET", "POST"])
 def create_account():
     if request.method == "POST":
-        email = request.form.get('email')
-        password = request.form.get('password')
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         user = crud.get_user_by_email(email)
         if user:
-            flash('Cannot create an account with that email. Try again.')
+            flash("Cannot create an account with that email. Try again.")
         else:
+            fname = request.form.get("fname")
+            lname = request.form.get("lname")
             crud.create_user(email, password, fname, lname)
-            flash('Account created! Please log in.')
+            flash("Account created! Please log in.")
+            return redirect(url_for("login"))
 
     return render_template("signup.html")
+
+@app.route('/recipes/<recipe_id>')
+def show_recipe(recipe_id):
+    """Show details on a particular recipe."""
+
+    if "user" not in session:
+        flash("Please log in!")
+        return redirect("/login")
+
+    recipe = crud.get_recipe_by_id(recipe_id)
+
+    return render_template("recipe_details.html", recipe=recipe)
+
 
 @app.route("/recipes", methods=["GET", "POST"])
 def view_recipes():
     """View recipes"""
 
-    # recipes = crud.get_recipes()
+    # if "user" in session:
+    #     user = session["user"]
+    #     recipes = crud.get_recipes()
+    #     return render_template("recipes.html", recipes=recipes, user=user)
+    # else:
+    #     return redirect(url_for("login"))
+    if "user" not in session:
+        flash("Please log in!")
+        return redirect("/login")
 
-    return render_template("recipes.html")
+    recipes = crud.get_recipes()
+
+    return render_template("recipes.html", recipes=recipes)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
-
+    if "user" not in session:
+        flash("Please log in!")
+        return redirect("/login")
     if request.method == "POST":
         recipe_name = request.form.get("recipe_name")
         date_created = datetime.now()
@@ -75,19 +119,20 @@ def add_recipe():
         num_servings = request.form.get("num_servings")
         ingredients = request.form.get("ingredients")
         directions = request.form.get("directions")
-        
-        #user = session['User']
+        user_id = session["user"]
 
         crud.create_recipe(recipe_name, date_created, prep_time, 
-            cook_time, num_servings, ingredients, directions)
+            cook_time, num_servings, ingredients, directions, user_id)
         flash("Recipe added!")
-        
+        return redirect(url_for("view_recipes"))
      
     return render_template("recipe_form.html")
 
 @app.route("/logout")
 def logout():
-    flash("You have successfully logged out!", "info")
+    if "user" in session:
+        user = session["user"]
+        flash("You have successfully logged out!", "info")
     session.pop("user", None)
     return redirect("/login")
 

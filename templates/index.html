@@ -1,7 +1,13 @@
 
-
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block body %}
+<div class="container">
+
+  <!-- Use "container" for a responsive fixed width page. -->
+  <!-- REST OF PAGE CONTENT -->
   <h1>My Recipes Web App</h1>
-  <p>Do you want to <a href="{{ url_for('login') }}">log in?</a></p>
+  <!-- <p>Do you want to <a href="{{ url_for('login') }}">log in?</a></p> -->
+
+</div>  
+
 {% endblock %}

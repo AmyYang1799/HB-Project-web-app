@@ -1,9 +1,10 @@
 
-{% extends "layout.html" %}
+{% extends "base.html" %}
 {% block body %}
-  <h1>Login</h1>
+<div class="container">
+<h2>Login</h2>
 
-  <form method="post">
+  <form method="POST">
     <dl>
       <dt>Email:
       <dd><input type="text" name="email">
@@ -12,7 +13,8 @@
     </dl>
     <p><input type="submit" value="Login">
   </form>
-  
+
   <br>
   <p>Create an account <a href="{{ url_for('create_account') }}">here.</a></p>
+</div>
 {% endblock %}

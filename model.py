@@ -21,7 +21,7 @@ class User(db.Model):
     lname = db.Column(db.String(30), nullable=False)
     
     # ingredients = a list of Ingredient objects
-    image = db.relationship("Image")
+    
     recipe = db.relationship("Recipe")
 
     def __repr__(self):
@@ -47,7 +47,7 @@ class Recipe(db.Model):
 
     # ingredients = a list of Ingredient objects
     user = db.relationship("User")
-    image = db.relationship("Image")
+    
 
     def __repr__(self):
         return f'<Recipe recipe_id={ self.recipe_id } recipe_name={self.recipe_name} date_created={self.date_created} prep_time={ self.prep_time } cook_time={ self.cook_time } num_servings={ self.num_servings } ingredients={ self.ingredients } directions={ self.directions } user_id={self.user_id} >'

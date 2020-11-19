@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.recipe_name }} - Details{% endblock %}
+
+{% block body %}
+<div class="container">
+<h2>{{ recipe.recipe_name }}</h2>
+<br>
+<p>
+    <br>Prep time: {{ recipe.prep_time }}
+    <br>Cook time: {{ recipe.cook_time }}
+    <br>Number of servings: {{ recipe.num_servings }}
+    <br>
+    <br>
+    <br>Ingredients: {{ recipe.ingredients }}
+    <br>
+    <br>Directions: {{ recipe.directions }}
+</p>
+
+<p><a href="{{ url_for('view_recipes') }}"><< Back to recipes </a></p>
+</div>
+
+{% endblock %}

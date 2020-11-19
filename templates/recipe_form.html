@@ -1,16 +1,26 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Recipe Web App</title>
   </head>
-  <body>
-    <h1>Add a Recipe</h1>
+  <body> -->
+{% extends "base.html" %}
+
+{% block body%}
+<div class="container">
+    <h2>Add a Recipe</h2>
+
 
     <form action="/add_recipe" id="recipes-form" method="POST">
+    
         <label>Recipe Title: </label>
         <input type="text" id="recipe_name" name="recipe_name">
+        <br>
+        <br>
+        <label>Upload an image:</label>
+        <!-- <input type="file" id="image_path" name="image_path"> -->
         <br>
         <br>
         <label>Prep Time: </label>
@@ -18,25 +28,29 @@
         <label>Cook Time: </label>
         <input type="text" id="cook_time" name="cook_time">
         <br>
+        <br>
         <label>Number of Servings: </label>
         <input type="text" id="num_servings" name="num_servings">
         <br>
         <br>
         <label>Ingredients:</label><br>
-        <textarea id="ingredients" name="ingredients" placeholder="List each item on a seperate line."></textarea>
+        <textarea id="ingredients" name="ingredients" placeholder="Seperate each ingredient by a comma"></textarea>
         <br>
         <br>
         <br>
         <label>Directions:</label><br>
-        <textarea id="directions" name="directions" placeholder="List each step on a seperate line."></textarea>
+        <textarea id="directions" name="directions" placeholder="Seperate each step by a comma"></textarea>
         <br>
         <br>
         <br>
-        <div>
+        
         <button type="submit" value="submit">Create Recipe</button>
-        </div>
+        
       </form>
 
       <script src="/static/js/recipes.js"></script>
   </body>
-</html>
+
+
+</div>
+{%  endblock %}
