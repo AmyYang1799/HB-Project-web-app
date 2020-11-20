@@ -82,3 +82,22 @@ def get_recipe_by_id(recipe_id):
     """Return a recipe by primary key."""
 
     return Recipe.query.get(recipe_id)
+
+def get_user_by_id(user_id):
+    """Return a user by primary key."""
+
+    return User.query.get(user_id)
+
+def add_saved_recipe(user_id, recipe_id):
+    """Add and return a saved recipe."""
+
+    user = User.query.get(user_id)
+
+    if user.saved_recipes is None:
+        user.saved_recipes = recipe_id
+    else:
+        user.saved_recipes = user.saved_recipes + "," + recipe_id
+
+    db.session.commit()
+
+    return Recipe.query.get(recipe_id)

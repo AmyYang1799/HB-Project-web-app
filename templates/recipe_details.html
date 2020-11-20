@@ -4,6 +4,11 @@
 
 {% block body %}
 <div class="container">
+
+    <form action="/favorite_recipe" id="fav-form" method="POST">
+        <button type="submit" id="submit" value="{{recipe.recipe_id}}">Save to Favorites</button>
+    </form>
+
 <h2>{{ recipe.recipe_name }}</h2>
 <br>
 <p>

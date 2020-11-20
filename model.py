@@ -19,13 +19,14 @@ class User(db.Model):
     password = db.Column(db.String(30), nullable=False)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
+    saved_recipes = db.Column(db.Text, nullable=True)
     
     # ingredients = a list of Ingredient objects
     
     recipe = db.relationship("Recipe")
 
     def __repr__(self):
-        return f'<User user_id={ self.user_id } email={ self.email } password={ self.password } fname={self.fname} fname={self.lname}>'
+        return f'<User user_id={ self.user_id } email={ self.email } password={ self.password } fname={self.fname} lname={self.lname} saved_recipes={ self.saved_recipes }>'
     
 
 class Recipe(db.Model):

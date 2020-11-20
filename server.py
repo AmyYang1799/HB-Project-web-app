@@ -45,7 +45,9 @@ def login():
                 flash("Invalid credentials")
             else:
                 session["user"] = user.user_id
+                session["fname"] = user.fname
                 print(user.user_id)
+                print(user.fname)
                 flash("You were successfully logged in!")
                 return redirect(url_for("view_recipes"))
   
@@ -83,7 +85,7 @@ def show_recipe(recipe_id):
         return redirect("/login")
 
     recipe = crud.get_recipe_by_id(recipe_id)
-
+    print("recipe id:", recipe.recipe_id)
     return render_template("recipe_details.html", recipe=recipe)
 
 
@@ -97,13 +99,15 @@ def view_recipes():
     #     return render_template("recipes.html", recipes=recipes, user=user)
     # else:
     #     return redirect(url_for("login"))
+
     if "user" not in session:
         flash("Please log in!")
         return redirect("/login")
 
+    fname = session["fname"]
     recipes = crud.get_recipes()
 
-    return render_template("recipes.html", recipes=recipes)
+    return render_template("recipes.html", recipes=recipes, fname=fname)
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
@@ -127,6 +131,14 @@ def add_recipe():
         return redirect(url_for("view_recipes"))
      
     return render_template("recipe_form.html")
+
+@app.route("/favorite_recipe", methods=["GET", "POST"])
+def add_saved_recipe(): 
+    user_id = session["user"]
+    recipe_id = request.formData.get("recipe_id")
+    recipe = crud.add_saved_recipe(user_id, recipe_id)
+  
+    return render_template("recipe_details.html", recipe=recipe)
 
 @app.route("/logout")
 def logout():
