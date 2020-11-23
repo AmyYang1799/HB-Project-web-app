@@ -8,7 +8,9 @@
 <div class="container">
 
     <form action="/favorite_recipe" id="fav-form"  method="POST">
+        <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
         <button type="submit" name="fav-button">Save to Favorites </button>
+        
     </form>
 <br>
 <h2>{{ recipe.recipe_name }}</h2>

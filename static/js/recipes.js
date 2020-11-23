@@ -1,7 +1,7 @@
 "use strict";
 
 $('#fav-form').on('submit', (evt) => {
-    evt.preventDefault();
+    // evt.preventDefault();
   
     // Get recipe info from a form
     const formData = {

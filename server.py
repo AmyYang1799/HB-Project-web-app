@@ -136,12 +136,14 @@ def add_recipe():
 def create_fav_recipe():
 
     user_id = session["user"]
-    recipe_id = request.form.get("recipe")
+    recipe_id = request.form.get("recipe_id")
 
     recipe = crud.get_recipe_by_id(recipe_id)
     
     
-    favorite = crud.create_favorite(user_id, recipe_id)
+    favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
+
+    new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
 
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print(recipe)
