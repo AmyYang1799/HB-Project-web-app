@@ -19,14 +19,14 @@ class User(db.Model):
     password = db.Column(db.String(30), nullable=False)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
-    saved_recipes = db.Column(db.Text, nullable=True)
+    # saved_recipes = db.Column(db.Text, nullable=True)
     
     # ingredients = a list of Ingredient objects
     
     recipe = db.relationship("Recipe")
 
     def __repr__(self):
-        return f'<User user_id={ self.user_id } email={ self.email } password={ self.password } fname={self.fname} lname={self.lname} saved_recipes={ self.saved_recipes }>'
+        return f'<User user_id={ self.user_id } email={ self.email } password={ self.password } fname={self.fname} lname={self.lname}>'
     
 
 class Recipe(db.Model):
@@ -74,6 +74,25 @@ class Recipe(db.Model):
 #     def __repr__(self):
 #         return f'<Ingredient recipe_id={ self.recipe_id } user_id={self.user_id} ing_type={self.ing_type} ingredient={self.ingredient} ing_meas={ self.ing_meas }>'
     
+class Favorite(db.Model):
+    """Recipes favorited by user."""
+
+    __tablename__ = "favorites"
+
+    favorite_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
+    
+
+    user = db.relationship("User")
+    recipe = db.relationship("Recipe")
+
+    def __repr__(self):
+        return f'<Favorite favorite_id={ self.favorite_id } user_id={self.user_id} recipe_id={self.recipe_id}>'
+
+
 
 class Image(db.Model):
     """Images uploaded by user."""

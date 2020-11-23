@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Recipe, Image, connect_to_db
+from model import db, User, Recipe, Image, connect_to_db, Favorite
 
 
 # Functions start here!
@@ -88,16 +88,21 @@ def get_user_by_id(user_id):
 
     return User.query.get(user_id)
 
-def add_saved_recipe(user_id, recipe_id):
-    """Add and return a saved recipe."""
+def create_favorite(user_id, recipe_id):
+    """Create a fav recipe."""
+
+    print("???????????????????????????????????????")
+    print(Favorite.query.all())
+    print(recipe_id)
 
     user = User.query.get(user_id)
+    print(user)
+    print(user_id)
 
-    if user.saved_recipes is None:
-        user.saved_recipes = recipe_id
-    else:
-        user.saved_recipes = user.saved_recipes + "," + recipe_id
+    favorite = Favorite(user_id=user_id, recipe_id=recipe_id)
+
+    db.session.add(favorite)
 
     db.session.commit()
 
-    return Recipe.query.get(recipe_id)
+    return favorite

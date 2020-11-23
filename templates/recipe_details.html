@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ recipe.recipe_name }} - Details{% endblock %}
+{% block title %} 
+    {{ recipe.recipe_name }} - Details
+{% endblock %}
 
 {% block body %}
 <div class="container">
 
-    <form action="/favorite_recipe" id="fav-form" method="POST">
-        <button type="submit" id="submit" value="{{recipe.recipe_id}}">Save to Favorites</button>
+    <form action="/favorite_recipe" id="fav-form"  method="POST">
+        <button type="submit" name="fav-button">Save to Favorites </button>
     </form>
-
+<br>
 <h2>{{ recipe.recipe_name }}</h2>
 <br>
 <p>
@@ -22,7 +24,7 @@
     <br>Directions: {{ recipe.directions }}
 </p>
 
-<p><a href="{{ url_for('view_recipes') }}"><< Back to recipes </a></p>
+<p><a href="{{ url_for('view_recipes') }}"> << Back to recipes </a></p>
 </div>
 
 {% endblock %}

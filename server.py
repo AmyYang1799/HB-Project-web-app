@@ -132,13 +132,25 @@ def add_recipe():
      
     return render_template("recipe_form.html")
 
-@app.route("/favorite_recipe", methods=["GET", "POST"])
-def add_saved_recipe(): 
+@app.route("/favorite_recipe", methods=["POST"])
+def create_fav_recipe():
+
     user_id = session["user"]
-    recipe_id = request.formData.get("recipe_id")
-    recipe = crud.add_saved_recipe(user_id, recipe_id)
-  
-    return render_template("recipe_details.html", recipe=recipe)
+    recipe_id = request.form.get("recipe")
+
+    recipe = crud.get_recipe_by_id(recipe_id)
+    
+    
+    favorite = crud.create_favorite(user_id, recipe_id)
+
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print(recipe)
+    print(favorite)
+
+    # return render_template("recipe_details.html", recipe=recipe)
+    return redirect("/recipes")
+
+
 
 @app.route("/logout")
 def logout():
