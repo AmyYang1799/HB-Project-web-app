@@ -1,28 +1,35 @@
 "use strict";
 
-$('#fav-form').on('submit', (evt) => {
-    // evt.preventDefault();
+// .querySelector('#submit').addEventListener('click', (evt) => {
+
+//   // console.log("INSIDE RECIPE SUBMIT METHOD")  
+//   // evt.preventDefault();
   
-    // Get recipe info from a form
-    const formData = {
-      recipe_id: $('#submit').val(),
-      
-    };
+//   //   // Get recipe info from a form
+//   // if ($("#recipe_name").val() == ""){
+//   //   alert(`Please fill out recipe name`);
+//   // }
+
+//   // if ($("#prep_time").val() == ""){
+//   //   alert(`Please fill out prep name`);
+//   // }
+
+//   const formData = {
+//     recipe_name: $("#recipe_name").val(),
+//     prep_time: $("#prep_time").val(),
+//     cook_time: $("#cook_time").val(),
+//     num_servings: $("#num_servings").val(),
+//     ingredients: $("#ingredients").val(),
+//     directions: $("#directions").val()
+//   };
   
-    // Send formData to the server (becomes a query string)
-    $.get('/favorite_recipe', formData, (res) => {
-      // Display response from the server
-      alert(`Hello`);
+//     // Send formData to the server (becomes a query string)
+//   $.post('/add_recipe', formData, (res) => {
+//     window.location()
+//   //   //   // Display response from the server
+//   //     alert(`Hello`);
       
-    });
-  });
+//   });
+// });document
 
 
-  // document.querySelector('#login-button').addEventListener('click', (evt) => {
-  //   const loginBtn = evt.target;
-  //   console.log(evt.target);
-  
-  //   if (loginBtn.innerHTML === 'Log In') {
-  //     loginBtn.innerHTML = 'Log Out';
-  //   } else {
-  //     loginBtn.innerHTML = 'Log In';

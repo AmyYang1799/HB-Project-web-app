@@ -111,3 +111,4 @@ def create_favorite(user_id, recipe_id):
 def get_user_fav_recipe(user_id, recipe_id):
 
     return Favorite.query.filter_by(user_id=user_id, recipe_id=recipe_id).first()
+

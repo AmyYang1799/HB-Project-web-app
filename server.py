@@ -1,6 +1,6 @@
 """Server for JavaScript: Project-Web-App.""" 
 
-from flask import Flask, render_template, request, redirect, flash, session, url_for
+from flask import Flask, render_template, request, redirect, flash, session, url_for, jsonify
 
 from model import connect_to_db
 import crud
@@ -10,9 +10,17 @@ from datetime import datetime
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
+
 app.secret_key = "askdjaskhaljk"
 app.jinja_env.undefined = StrictUndefined
 
+
+#Global variable to check if user is logged in
+#Used for login/logout button
+@app.context_processor
+def inject_is_logged_in():
+    is_logged_in = "user" in session
+    return dict(is_logged_in=is_logged_in)
 
 @app.route("/")
 def homepage():
@@ -57,6 +65,8 @@ def login():
         return redirect(url_for('view_recipes'))
 
     return render_template('login.html')
+
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def create_account():
@@ -115,43 +125,87 @@ def add_recipe():
     if "user" not in session:
         flash("Please log in!")
         return redirect("/login")
+
     if request.method == "POST":
-        recipe_name = request.form.get("recipe_name")
+
+        message = ""
+
         date_created = datetime.now()
-        prep_time = request.form.get("prep_time")
-        cook_time = request.form.get("cook_time")
-        num_servings = request.form.get("num_servings")
-        ingredients = request.form.get("ingredients")
-        directions = request.form.get("directions")
         user_id = session["user"]
 
-        crud.create_recipe(recipe_name, date_created, prep_time, 
+        recipe_name = request.form.get("recipe_name")
+        if (recipe_name == ""):
+            message += "Recipe name wrong."
+        
+        prep_time = request.form.get("prep_time")
+        if (prep_time == ""): 
+            message += "Please enter a prep time."   
+        
+        cook_time = request.form.get("cook_time")
+        if (cook_time == ""): 
+            message += "Please enter a cook time." 
+        
+        num_servings = request.form.get("num_servings")
+        if (num_servings == ""): 
+            message += "Please enter number of servings." 
+        
+        ingredients = request.form.get("ingredients")
+        if (ingredients == ""): 
+            message += "Please enter ingredients." 
+        
+        directions = request.form.get("directions")
+        if (directions == ""): 
+            message += "Please enter directions." 
+        
+        if(message == ""):
+            crud.create_recipe(recipe_name, date_created, prep_time, 
             cook_time, num_servings, ingredients, directions, user_id)
-        flash("Recipe added!")
-        return redirect(url_for("view_recipes"))
+            message += "Recipe created!"
+            
+        flash(message)
+
+        return redirect("/recipes")
      
     return render_template("recipe_form.html")
 
-@app.route("/favorite_recipe", methods=["POST"])
+@app.route("/favorite_recipes", methods=["GET", "POST"])
 def create_fav_recipe():
+    if "user" not in session:
+        flash("Please log in!")
+        return redirect("/login")
 
-    user_id = session["user"]
-    recipe_id = request.form.get("recipe_id")
+    if request.method == "POST":
+        user_id = session["user"]
+        recipe_id = request.form.get("recipe_id")
 
-    recipe = crud.get_recipe_by_id(recipe_id)
+        recipe = crud.get_recipe_by_id(recipe_id)
+        
+        
+        favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
+
+        new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
+
+        flash("Recipe saved as favorite!")
+
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(recipe)
+        print(favorite)
+        return redirect("/favorite_recipes")
     
-    
-    favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
+    return render_template("favorites.html")
 
-    new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
 
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print(recipe)
-    print(favorite)
 
-    # return render_template("recipe_details.html", recipe=recipe)
-    return redirect("/recipes")
+@app.route("/loged_in")
+def loged_in():
+    is_logged_in = False
 
+    try:
+        is_logged_in = "user" in session
+    except:
+        print("User not logged in")
+
+    return jsonify(is_logged_in)
 
 
 @app.route("/logout")
