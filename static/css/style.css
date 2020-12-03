@@ -1,7 +1,25 @@
+body {
+    background: url(/static/images/brooke-lark-wMzx2nBdeng-unsplash.jpg) no-repeat center center;
+    background-size: cover;
+    height: 0;
+    padding-bottom: 56.25%;
+    box-sizing: border-box;
+
+    width: 100%;
+    /* margin-top: 100px; */
+    top: 0;
+    /* bottom: 0; */
+    left: 0;
+    /* right: 0; */
+    z-index: 0;
+    background-position: 50% 50%;   
+}
+
 
 h1 {
-    font-family: sans-serif;
+    font-family: 'Cedarville Cursive', cursive;
     color: #00214d;
+    font-size: 200%;
 }
 
 h2 {
@@ -9,9 +27,13 @@ h2 {
     color: #00214d;
 }
 
-body {
-    background: url(brooke-lark-wMzx2nBdeng-unsplash.jpg) no-repeat center center;
-    background-size: cover;
-  }
-
-
+#homepage {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    font-size: 50px;
+    height: 600px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
