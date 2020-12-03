@@ -117,6 +117,7 @@ def view_recipes():
     fname = session["fname"]
     recipes = crud.get_recipes()
 
+
     return render_template("recipes.html", recipes=recipes, fname=fname)
 
 
@@ -167,6 +168,7 @@ def add_recipe():
         return redirect("/recipes")
      
     return render_template("recipe_form.html")
+    
 
 @app.route("/favorite_recipes", methods=["GET", "POST"])
 def create_fav_recipe():
@@ -183,16 +185,19 @@ def create_fav_recipe():
         
         favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
 
-        new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
+        #new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
 
         flash("Recipe saved as favorite!")
 
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(recipe)
-        print(favorite)
+        # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # print(recipe)
+        # print(favorite)
         return redirect("/favorite_recipes")
-    
-    return render_template("favorites.html")
+
+    favorites = crud.get_user_fav(user_id=session["user"])
+    print(favorites)
+ 
+    return render_template("favorites.html", favorites=favorites)
 
 
 
