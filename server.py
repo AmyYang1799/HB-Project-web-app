@@ -17,11 +17,11 @@ app.jinja_env.undefined = StrictUndefined
 
 #Global variable to check if user is logged in
 #Used for login/logout button
-@app.context_processor
-def inject_is_logged_in():
-    is_logged_in = "user" in session
-    fname = session["fname"]
-    return dict(is_logged_in=is_logged_in)
+# @app.context_processor
+# def inject_is_logged_in():
+#     is_logged_in = "user" in session
+#     fname = session["fname"]
+#     return dict(is_logged_in=is_logged_in)
 
 @app.route("/")
 def homepage():
@@ -169,10 +169,9 @@ def create_fav_recipe():
         flash("Please log in!")
         return redirect("/login")
 
-    fname = session["fname"]
+    
     if request.method == "POST":
         user_id = session["user"]
-        fname = session["fname"]
         recipe_id = request.form.get("recipe_id")
 
         recipe = crud.get_recipe_by_id(recipe_id)
@@ -189,12 +188,12 @@ def create_fav_recipe():
 
             flash("Recipe saved as favorite!")
 
-        return redirect("/recipes/" + recipe_id, fname=fname)
+        return redirect("/recipes/" + recipe_id)
  
     favorites = crud.get_user_fav(user_id=session["user"])
     print(favorites)
  
-    return render_template("favorites.html", favorites=favorites, fname=fname)
+    return render_template("favorites.html", favorites=favorites)
 
 
 
