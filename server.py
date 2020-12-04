@@ -20,6 +20,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.context_processor
 def inject_is_logged_in():
     is_logged_in = "user" in session
+    fname = session["fname"]
     return dict(is_logged_in=is_logged_in)
 
 @app.route("/")
@@ -30,18 +31,7 @@ def homepage():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # if request.method == "POST":
-    #     email = request.form["email"]
-    #     password= request.form["password"]
-    #     user == crud.get_user_by_email(email)
-
-    #     if email == user and password == user.password:
-    #         session["user"] = user
-    #         flash("You were successfully logged in!")
-    #         return redirect(url_for("view_recipes"))
-    #     else:
-    #         flash("Invalid credentials")
-            
+   
     if request.method == "POST":
 
         email = request.form["email"]
@@ -50,18 +40,21 @@ def login():
             user = crud.get_user_by_email(email)
         
             if user and request.form["password"] != user.password:
-                flash("Invalid credentials")
+                message= "Invalid credentials!"
+                flash(message)
             else:
                 session["user"] = user.user_id
                 session["fname"] = user.fname
                 print(user.user_id)
                 print(user.fname)
-                flash("You were successfully logged in!")
+                message = "You were successfully logged in!"
+                flash(message)
                 return redirect(url_for("view_recipes"))
   
        
     if "user" in session:
-        flash("Already logged in!")
+        message = "Already logged in!"
+        flash(message)
         return redirect(url_for('view_recipes'))
 
     return render_template('login.html')
@@ -136,27 +129,27 @@ def add_recipe():
 
         recipe_name = request.form.get("recipe_name")
         if (recipe_name == ""):
-            message += "Recipe name wrong."
+            message += "Recipe name wrong. "
         
         prep_time = request.form.get("prep_time")
         if (prep_time == ""): 
-            message += "Please enter a prep time."   
-        
+            message += "Please enter a prep time. "
+    
         cook_time = request.form.get("cook_time")
         if (cook_time == ""): 
-            message += "Please enter a cook time." 
+            message += "Please enter a cook time. " 
         
         num_servings = request.form.get("num_servings")
         if (num_servings == ""): 
-            message += "Please enter number of servings." 
+            message += "Please enter number of servings. " 
         
         ingredients = request.form.get("ingredients")
         if (ingredients == ""): 
-            message += "Please enter ingredients." 
+            message += "Please enter ingredients. " 
         
         directions = request.form.get("directions")
         if (directions == ""): 
-            message += "Please enter directions." 
+            message += "Please enter directions. " 
         
         if(message == ""):
             crud.create_recipe(recipe_name, date_created, prep_time, 
@@ -164,11 +157,11 @@ def add_recipe():
             message += "Recipe created!"
             
         flash(message)
-
-        return redirect("/recipes")
+        
+        return redirect("/add_recipe")
      
     return render_template("recipe_form.html")
-    
+
 
 @app.route("/favorite_recipes", methods=["GET", "POST"])
 def create_fav_recipe():
@@ -176,28 +169,32 @@ def create_fav_recipe():
         flash("Please log in!")
         return redirect("/login")
 
+    fname = session["fname"]
     if request.method == "POST":
         user_id = session["user"]
+        fname = session["fname"]
         recipe_id = request.form.get("recipe_id")
 
         recipe = crud.get_recipe_by_id(recipe_id)
         
-        
-        favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
+        existing_fav = crud.get_fav_by_id(user_id=user_id, recipe_id=recipe_id)
+        print(existing_fav)
 
-        #new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
+        if existing_fav:
+            flash("Recipe already saved to favorites")
+        else:
+            favorite = crud.create_favorite(user_id=user_id, recipe_id=recipe_id)
 
-        flash("Recipe saved as favorite!")
+            #new_favorite = crud.get_user_fav_recipe(user_id=user_id, recipe_id=recipe_id)
 
-        # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        # print(recipe)
-        # print(favorite)
-        return redirect("/favorite_recipes")
+            flash("Recipe saved as favorite!")
 
+        return redirect("/recipes/" + recipe_id, fname=fname)
+ 
     favorites = crud.get_user_fav(user_id=session["user"])
     print(favorites)
  
-    return render_template("favorites.html", favorites=favorites)
+    return render_template("favorites.html", favorites=favorites, fname=fname)
 
 
 
@@ -217,7 +214,7 @@ def loged_in():
 def logout():
     if "user" in session:
         user = session["user"]
-        flash("You have successfully logged out!", "info")
+        flash("You have been logged out!", "info")
     session.pop("user", None)
     return redirect("/login")
 

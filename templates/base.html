@@ -18,12 +18,16 @@
     <link rel="stylesheet" href="/static/css/style.css">
 
     <title>
-      {% block title %}My Recipes Web App{% endblock %}
+      {% block title %}Recipe Lab{% endblock %}
     </title>
 
-
+    <!-- Font 1 -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
+    <!-- Font 2 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+
     {% block head %}{% endblock %}
   </head>
   <body>
@@ -31,7 +35,7 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#"></a>
+      <a class="navbar-brand" href="/">Recipe Lab</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -54,8 +58,9 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="/recipes">
-                <i class="fa fa-book" aria-hidden="true"></i>
-                
+                <!-- <i class="fa fa-book" aria-hidden="true"></i> -->
+                <!-- <i class="fa fa-lemon-o" aria-hidden="true"></i> -->
+                <i class="fa fa-cutlery" aria-hidden="true"></i>
                 &nbsp;Recipes</a>
               <a class="dropdown-item" href="/add_recipe">
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -75,21 +80,19 @@
             <a class="nav-link disabled" href="#">Disabled</a>
           </li> -->
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
+        {% if is_logged_in %}
+        <form class="form-inline my-2 my-lg-0 user" id="logged_in">
+          <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>&nbsp;
+          Hi, {{fname}}!
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+        </form>
+        {% endif %}
       </div>
     </nav>
 
   
 
-
-    <ul>
-      {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
 
     {% block body %}{% endblock %}
 

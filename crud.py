@@ -114,6 +114,12 @@ def get_user_fav(user_id):
 
     #fav = db.session.query(Recipe).filter(Favorite.user_id==user_id).all()
 
-    fav = db.session.query(Favorite, Recipe,).filter(Favorite.user_id==user_id).filter(Recipe.recipe_id==Favorite.recipe_id).all()
+    # fav = db.session.query(Favorite, Recipe,).filter(Favorite.user_id==user_id).filter(Recipe.recipe_id==Favorite.recipe_id).all()
+
+    fav = db.session.query(Recipe.recipe_id, Recipe.recipe_name,).filter(Favorite.user_id==user_id).filter(Recipe.recipe_id==Favorite.recipe_id).all()
     return fav 
 
+def get_fav_by_id(user_id, recipe_id):
+    """Return a favorite recipe by recipe id."""
+
+    return Favorite.query.filter_by(recipe_id=recipe_id, user_id=user_id).all()

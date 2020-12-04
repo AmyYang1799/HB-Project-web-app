@@ -1,8 +1,23 @@
 
 {% extends "base.html" %}
 {% block body %}
+
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning col-md-4">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+
 <div class="container" align="center" id="login">
-<h2>Login</h2>
+<h3>Login</h3>
 
   <form method="POST">
     <div class="form-group col-md-4">

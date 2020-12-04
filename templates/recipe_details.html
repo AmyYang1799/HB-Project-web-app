@@ -4,8 +4,23 @@
     {{ recipe.recipe_name }} - Details
 {% endblock %}
 
+
 {% block body %}
+
+{% block content %}
 <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success col-md-4">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+<div class="container boxed recipe_details">
 
     <form action="/favorite_recipes" id="fav-form"  method="POST">
         <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">

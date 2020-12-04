@@ -8,19 +8,33 @@
   <body> -->
 {% extends "base.html" %}
 
+
 {% block body%}
+{% block content %}
 <div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning col-md-4">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+<div class="container boxed">
     <h2>Add a Recipe</h2>
 
 
-    <form id="recipes-form" action="/add_recipe" method="POST">
+    <form id="recipes-form" method="POST">
     
         <label>Recipe Title: </label>
         <input type="text" id="recipe_name" name="recipe_name">
-        <br>
+        <!-- <br>
         <br>
         <label>Upload an image:</label>
-        <!-- <input type="file" id="image_path" name="image_path"> -->
+        <input type="file" id="image_path" name="image_path"> -->
         <br>
         <br>
         <label>Prep Time: </label>
