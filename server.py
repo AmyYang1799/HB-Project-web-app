@@ -70,6 +70,12 @@ def create_account():
         user = crud.get_user_by_email(email)
         if user:
             flash("Cannot create an account with that email. Try again.")
+        elif email == "" and password == "":
+            flash("Cannot create an account with that email and password. Try again.")
+        elif email == "":
+            flash("Cannot create an account with that email. Try again.")
+        elif password == "":
+            flash("Cannot create an account. Please enter a valid password.")
         else:
             fname = request.form.get("fname")
             lname = request.form.get("lname")
